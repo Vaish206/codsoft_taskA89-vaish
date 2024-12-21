@@ -1,0 +1,623 @@
+task1:
+import java.util.Scanner;
+import java.util.Random;
+
+public class NumberGuessingGame {
+
+    public static void main(String[] args) {
+     
+        Scanner scanner = new Scanner(System.in);
+      
+        Random random = new Random();
+        int totalRoundsWon = 0;
+        int totalAttempts = 0;
+
+        boolean playAgain = true;
+        while (playAgain) {
+         
+            int numberToGuess = random.nextInt(100) + 1;
+            
+            int maxAttempts = 10;
+            int attempts = 0;
+            int userGuess = 0;
+            
+
+            System.out.println("Welcome to the Number Guessing Game!");
+            System.out.println("I have selected a random number between 1 and 100.");
+            System.out.println("You have " + maxAttempts + " attempts to guess the number.");
+            
+           
+            while (attempts < maxAttempts) {
+              
+                System.out.print("Enter your guess: ");
+                userGuess = scanner.nextInt();
+                attempts++; 
+
+             
+                if (userGuess < numberToGuess) {
+                    System.out.println("Your guess is too low. Try again.");
+                } else if (userGuess > numberToGuess) {
+                    System.out.println("Your guess is too high. Try again.");
+                } else {
+                  
+                    System.out.println("Congratulations! You guessed the number.");
+                    totalRoundsWon++;
+                    totalAttempts += attempts;
+                    break;
+                }
+            }
+            
+    
+            if (userGuess != numberToGuess) {
+                System.out.println("Sorry, you've run out of attempts. The correct number was " + numberToGuess);
+            }
+            
+
+            System.out.print("Would you like to play another round? (yes/no): ");
+            String response = scanner.next().toLowerCase();
+            playAgain = response.equals("yes");
+        }
+      
+        System.out.println("\nGame Over!");
+        System.out.println("You won " + totalRoundsWon + " rounds.");
+        System.out.println("Total attempts made: " + totalAttempts);
+        
+        scanner.close();
+    }
+}
+Welcome to the Number Guessing Game!
+I have selected a random number between 1 and 100.
+You have 10 attempts to guess the number.
+Enter your guess: 50
+Your guess is too low. Try again.
+Enter your guess: 75
+Your guess is too high. Try again.
+Enter your guess: 62
+Your guess is too low. Try again.
+Enter your guess: 68
+Your guess is too high. Try again.
+Enter your guess: 65
+Congratulations! You guessed the number.
+
+Would you like to play another round? (yes/no): yes
+task2: 
+import java.util.Scanner;
+
+public class StudentGradeCalculator {
+
+    public static void main(String[] args) {
+       
+        Scanner scanner = new Scanner(System.in);
+
+        int numSubjects = 5;
+
+   
+        double[] marks = new double[numSubjects];
+
+        double totalMarks = 0;
+
+      
+        System.out.println("Enter the marks obtained in each subject (out of 100):");
+
+        for (int i = 0; i < numSubjects; i++) {
+            System.out.print("Subject " + (i + 1) + ": ");
+            marks[i] = scanner.nextDouble();
+            totalMarks += marks[i]; 
+        }
+
+        double averagePercentage = (totalMarks / (numSubjects * 100)) * 100;
+
+
+        String grade;
+        if (averagePercentage >= 90) {
+            grade = "A+";
+        } else if (averagePercentage >= 80) {
+            grade = "A";
+        } else if (averagePercentage >= 70) {
+            grade = "B+";
+        } else if (averagePercentage >= 60) {
+            grade = "B";
+        } else if (averagePercentage >= 50) {
+            grade = "C";
+        } else {
+            grade = "F";
+        }
+
+
+        System.out.println("\n--- Student Results ---");
+        System.out.println("Total Marks: " + totalMarks + "/" + (numSubjects * 100));
+        System.out.println("Average Percentage: " + averagePercentage + "%");
+        System.out.println("Grade: " + grade);
+
+
+        scanner.close();
+    }
+}
+Enter the marks obtained in each subject (out of 100):
+Subject 1: 85
+Subject 2: 90
+Subject 3: 78
+Subject 4: 88
+Subject 5: 92
+
+--- Student Results ---
+Total Marks: 433.0/500
+Average Percentage: 86.6%
+Grade: A
+task3:
+import java.util.Scanner;
+class BankAccount {
+    private double balance;
+
+    public BankAccount(double initialBalance) {
+        balance = initialBalance;
+    }
+
+   
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Successfully deposited: $" + amount);
+        } else {
+            System.out.println("Invalid deposit amount.");
+        }
+    }
+
+
+    public boolean withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.println("Successfully withdrawn: $" + amount);
+            return true;
+        } else if (amount > balance) {
+            System.out.println("Insufficient balance.");
+            return false;
+        } else {
+            System.out.println("Invalid withdrawal amount.");
+            return false;
+        }
+    }
+
+    public void checkBalance() {
+        System.out.println("Current balance: $" + balance);
+    }
+}
+
+
+class ATM {
+    private BankAccount account;
+
+    public ATM(BankAccount account) {
+        this.account = account;
+    }
+
+    
+    public void displayMenu() {
+        System.out.println("\n----- ATM Menu -----");
+        System.out.println("1. Withdraw");
+        System.out.println("2. Deposit");
+        System.out.println("3. Check Balance");
+        System.out.println("4. Exit");
+        System.out.print("Choose an option: ");
+    }
+
+
+    public void withdraw(double amount) {
+        account.withdraw(amount);
+    }
+
+
+    public void deposit(double amount) {
+        account.deposit(amount);
+    }
+
+
+    public void checkBalance() {
+        account.checkBalance();
+    }
+}
+
+public class ATMInterface {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+     
+        BankAccount myAccount = new BankAccount(1000);
+        
+     
+        ATM atm = new ATM(myAccount);
+
+        int choice;
+        double amount;
+
+
+        do {
+            atm.displayMenu();
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+         
+                    System.out.print("Enter amount to withdraw: $");
+                    amount = scanner.nextDouble();
+                    atm.withdraw(amount);
+                    break;
+                case 2:
+                  
+                    System.out.print("Enter amount to deposit: $");
+                    amount = scanner.nextDouble();
+                    atm.deposit(amount);
+                    break;
+                case 3:
+               
+                    atm.checkBalance();
+                    break;
+                case 4:
+              
+                    System.out.println("Thank you for using the ATM. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    break;
+            }
+        } while (choice != 4);
+
+        scanner.close();
+    }
+}
+----- ATM Menu -----
+1. Withdraw
+2. Deposit
+3. Check Balance
+4. Exit
+Choose an option: 1
+Enter amount to withdraw: $200
+Successfully withdrawn: $200
+
+----- ATM Menu -----
+1. Withdraw
+2. Deposit
+3. Check Balance
+4. Exit
+Choose an option: 3
+Current balance: $800
+
+----- ATM Menu -----
+1. Withdraw
+2. Deposit
+3. Check Balance
+4. Exit
+Choose an option: 2
+Enter amount to deposit: $500
+Successfully deposited: $500
+
+----- ATM Menu -----
+1. Withdraw
+2. Deposit
+3. Check Balance
+4. Exit
+Choose an option: 4
+Thank you for using the ATM. Goodbye!
+task4:
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
+import org.json.JSONObject;
+
+public class CurrencyConverter {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Welcome to the Currency Converter!");
+        
+        System.out.print("Enter the base currency (e.g., USD, EUR, GBP): ");
+        String baseCurrency = scanner.nextLine().toUpperCase();
+        
+        System.out.print("Enter the target currency (e.g., USD, EUR, GBP): ");
+        String targetCurrency = scanner.nextLine().toUpperCase();
+        
+        double exchangeRate = getExchangeRate(baseCurrency, targetCurrency);
+        
+        if (exchangeRate == -1) {
+            System.out.println("Error fetching exchange rates.");
+            return;
+        }
+
+        System.out.print("Enter the amount to convert from " + baseCurrency + ": ");
+        double amount = scanner.nextDouble();
+
+        double convertedAmount = amount * exchangeRate;
+        
+
+        System.out.println(amount + " " + baseCurrency + " is equal to " + convertedAmount + " " + targetCurrency);
+        
+        scanner.close();
+    }
+
+
+    public static double getExchangeRate(String baseCurrency, String targetCurrency) {
+        try {
+         
+            String apiKey = "YOUR_API_KEY_HERE"; 
+            String urlString = "https://v6.exchangerate-api.com/v6/" + apiKey + "/latest/" + baseCurrency;
+    
+            URL url = new URL(urlString);
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            
+   
+            Scanner in = new Scanner(connection.getInputStream());
+            StringBuilder response = new StringBuilder();
+            while (in.hasNext()) {
+                response.append(in.nextLine());
+            }
+            in.close();
+            
+  
+            JSONObject jsonResponse = new JSONObject(response.toString());
+            
+            if (jsonResponse.getString("result").equals("error")) {
+                System.out.println("Error: " + jsonResponse.getString("error-type"));
+                return -1;
+            }
+            
+          
+            JSONObject conversionRates = jsonResponse.getJSONObject("conversion_rates");
+            if (conversionRates.has(targetCurrency)) {
+                return conversionRates.getDouble(targetCurrency);
+            } else {
+                System.out.println("Error: Invalid target currency.");
+                return -1;
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return -1;
+        }
+    }
+}
+Welcome to the Currency Converter!
+Enter the base currency (e.g., USD, EUR, GBP): USD
+Enter the target currency (e.g., USD, EUR, GBP): EUR
+Enter the amount to convert from USD: 100
+100 USD is equal to 85.75 EUR
+task5:
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Student {
+    private String name;
+    private String rollNumber;
+    private String grade;
+    private int age;
+
+
+    public Student(String name, String rollNumber, String grade, int age) {
+        this.name = name;
+        this.rollNumber = rollNumber;
+        this.grade = grade;
+        this.age = age;
+    }
+
+   
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRollNumber() {
+        return rollNumber;
+    }
+
+    public void setRollNumber(String rollNumber) {
+        this.rollNumber = rollNumber;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    // Method to display student details
+    public void displayStudent() {
+        System.out.println("Name: " + name);
+        System.out.println("Roll Number: " + rollNumber);
+        System.out.println("Grade: " + grade);
+        System.out.println("Age: " + age);
+    }
+}
+
+class StudentManagementSystem {
+    private List<Student> students;
+
+    
+    public StudentManagementSystem() {
+        students = new ArrayList<>();
+    }
+
+    public void addStudent(String name, String rollNumber, String grade, int age) {
+        Student student = new Student(name, rollNumber, grade, age);
+        students.add(student);
+        System.out.println("Student added successfully!");
+    }
+
+ 
+    public void removeStudent(String rollNumber) {
+        for (Student student : students) {
+            if (student.getRollNumber().equals(rollNumber)) {
+                students.remove(student);
+                System.out.println("Student removed successfully!");
+                return;
+            }
+        }
+        System.out.println("Student not found!");
+    }
+
+    public void searchStudent(String rollNumber) {
+        for (Student student : students) {
+            if (student.getRollNumber().equals(rollNumber)) {
+                System.out.println("Student found:");
+                student.displayStudent();
+                return;
+            }
+        }
+        System.out.println("Student not found!");
+    }
+
+    public void displayAllStudents() {
+        if (students.isEmpty()) {
+            System.out.println("No students to display.");
+            return;
+        }
+        System.out.println("\n--- All Students ---");
+        for (Student student : students) {
+            student.displayStudent();
+            System.out.println("--------------------");
+        }
+    }
+}
+
+
+public class StudentManagementApp {
+    private static Scanner scanner = new Scanner(System.in);
+    private static StudentManagementSystem sms = new StudentManagementSystem();
+
+    public static void main(String[] args) {
+        while (true) {
+            showMenu();
+            int choice = getChoice();
+
+            switch (choice) {
+                case 1:
+                    addStudent();
+                    break;
+                case 2:
+                    removeStudent();
+                    break;
+                case 3:
+                    searchStudent();
+                    break;
+                case 4:
+                    sms.displayAllStudents();
+                    break;
+                case 5:
+                    System.out.println("Exiting the system. Goodbye!");
+                    return;
+                default:
+                    System.out.println("Invalid choice, please try again.");
+            }
+        }
+    }
+
+    public static void showMenu() {
+        System.out.println("\n----- Student Management System -----");
+        System.out.println("1. Add New Student");
+        System.out.println("2. Remove Student");
+        System.out.println("3. Search for a Student");
+        System.out.println("4. Display All Students");
+        System.out.println("5. Exit");
+        System.out.print("Choose an option: ");
+    }
+
+    public static int getChoice() {
+        int choice = -1;
+        while (choice < 1 || choice > 5) {
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+        return choice;
+    }
+
+
+    public static void addStudent() {
+        System.out.print("Enter student name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter student roll number: ");
+        String rollNumber = scanner.nextLine();
+        System.out.print("Enter student grade: ");
+        String grade = scanner.nextLine();
+        System.out.print("Enter student age: ");
+        int age = getAge();
+
+        sms.addStudent(name, rollNumber, grade, age);
+    }
+
+
+    public static int getAge() {
+        int age = -1;
+        while (age <= 0) {
+            try {
+                age = Integer.parseInt(scanner.nextLine());
+                if (age <= 0) {
+                    System.out.println("Age must be a positive number. Please try again.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number for age.");
+            }
+        }
+        return age;
+    }
+
+
+    public static void removeStudent() {
+        System.out.print("Enter the roll number of the student to remove: ");
+        String rollNumber = scanner.nextLine();
+        sms.removeStudent(rollNumber);
+    }
+
+    public static void searchStudent() {
+        System.out.print("Enter the roll number of the student to search: ");
+        String rollNumber = scanner.nextLine();
+        sms.searchStudent(rollNumber);
+    }
+}
+----- Student Management System -----
+1. Add New Student
+2. Remove Student
+3. Search for a Student
+4. Display All Students
+5. Exit
+Choose an option: 1
+Enter student name: John Doe
+Enter student roll number: 12345
+Enter student grade: A
+Enter student age: 20
+Student added successfully!
+
+----- Student Management System -----
+1. Add New Student
+2. Remove Student
+3. Search for a Student
+4. Display All Students
+5. Exit
+Choose an option: 4
+
+--- All Students ---
+Name: John Doe
+Roll Number: 12345
+Grade: A
+Age: 20
+--------------------
+
+
+
